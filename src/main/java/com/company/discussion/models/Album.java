@@ -1,0 +1,69 @@
+package com.company.discussion.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name="albums")
+public class Album {
+
+    // Properties
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "albums_seq")
+    @SequenceGenerator(name = "albums_seq", sequenceName = "sequence_albums", allocationSize = 1)
+    private Long id;
+
+    private String albumName;
+
+    @OneToMany(mappedBy = "album")
+    @JsonIgnore
+    private Set<Photo> photos;
+
+    // ManyToOne relationship between Album Model and User Model
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
+    private User user;
+
+    // Constructors
+    public Album() {
+    }
+
+    public Album(String albumName) {
+        this.albumName = albumName;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}
