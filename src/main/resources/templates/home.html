@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Title</title>
+</head>
+<body>
+<h1 th:text="${something}"></h1>
+<form th:action="@{/tl/photos}" th:object="${photo}" method="post" enctype="multipart/form-data">
+
+    <input type="file" name="image" multiple accept="image/png, image/jpeg" ></input>
+
+    <input type="text" th:field="*{title}"/>
+    <input type="text" th:field="*{content}"/>
+    <input type="text" th:field="*{comment}"/>
+
+    <input type="number" name="albumId"  th:value="${album.id}">
+
+    <input type="submit" value="Upload Files"></input>
+
+</form>
+
+
+
+</body>
+</html>

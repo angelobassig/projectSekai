@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+    <table>
+        <thead>
+            <tr th:each="stringUrl: ${stringUrlArr}">
+                <td>
+                    <img alt="testing" th:src="@{${stringUrl}}" />
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </body>
+</html>

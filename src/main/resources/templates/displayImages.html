@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--    <img th:src="@{${user.}}" />-->
+<!--        <img src="/user-photos/4/Screenshot (5).png"/>-->
+
+<table>
+    <thead>
+        <tr th:each="album: ${Albums}">
+            <td>
+                <tr th:each="stringUrl: ${stringUrlArr}">
+                    <td>
+                        <img alt="testing" th:src="@{${stringUrl}}" />
+                    </td>
+                </tr>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+<!--<tbody>-->
+<!--<tr th:each="student: ${students}">-->
+<!--    <td th:text="${student.id}" />-->
+<!--    <td th:text="${student.name}" />-->
+<!--</tr>-->
+<!--</tbody>-->
+</body>
+</html>
