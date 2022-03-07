@@ -2,6 +2,7 @@ package com.company.discussion.controllers;
 
 import com.company.discussion.models.Album;
 import com.company.discussion.models.Photo;
+import com.company.discussion.models.User;
 import com.company.discussion.repositories.AlbumRepository;
 import com.company.discussion.repositories.PhotoRepository;
 import com.company.discussion.services.PhotoService;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 public class PhotoController {
@@ -132,30 +134,78 @@ public class PhotoController {
     }
 
     // form/page for asking the user for an albumId input, where upon clicking the submit button, the user is directed to the list of images pertaining to the albumId inputted
-    @GetMapping("/tl/form/getAlbumId")
+    @GetMapping("/tl/form/getUserId")
     public String formGetAlbumId(Model model) {
         Photo photo = new Photo();
         Album album = new Album();
+        User user = new User();
         model.addAttribute("photo", photo);
         model.addAttribute("album", album);
-        return "formGetAlbumId";
+        model.addAttribute("user", user);
+        return "formGetUserId";
     }
 
     // displaying photos from an album with id: albumId
     @GetMapping("/tl/display/albums")
-    public String displayGetPhotosFromAlbum(@RequestParam("albumId") Long albumId, Model model) {
+    public String displayGetPhotosFromAlbum(@RequestParam("userId") Long userId, Model model) {
         // first, create an Array List
-        ArrayList<String> stringUrlArr = new ArrayList<>();
+        ArrayList<Long> albumArrId = new ArrayList<>();
+        ArrayList<String> albumArrName = new ArrayList<>(); // additional code
 
-        for (Photo photo : photoRepository.findAll()) {
-            if (photo.getAlbum().getId() == albumId) {
-                stringUrlArr.add("/user-photos/" + photo.getAlbum().getUser().getId() + "/" + photo.getAlbum().getId() + "/" + photo.getPhotoFileName());
+        // loop through every album with user_id = userId from the @RequestParam
+        for (Album album : albumRepository.findAll()) {
+            if (album.getUser().getId() == userId) {
+                albumArrId.add(album.getId());
+                albumArrName.add(album.getAlbumName()); // additional code
             }
         }
-        // adding stringUrlArr to the model to be able to use it in ThymeLeaf
-        model.addAttribute("stringUrlArr", stringUrlArr);
 
-        return "displayPhotos"; // this contains all of the url for the images that satisfy the given albumId
+        // loop through every photo in each given album_id in the albumArr
+
+        // create an Array List first
+        ArrayList<ArrayList<String>> nestedArr = new ArrayList<>();
+        HashMap<String, ArrayList<String>> nestedHashMap = new HashMap<>(); // additional code
+
+        // generating empty elements for nestedArr based on the number of albums belonging to user with id = userId
+        for (int i = 0; i < albumArrId.size(); i++) {
+            nestedArr.add(new ArrayList<>());
+        }
+
+        // generating empty elements for nestedHashMap based on the number of albums belonging to user with id = userId
+        for (int i = 0; i < albumArrId.size(); i++) {
+            nestedHashMap.put("", new ArrayList<>());
+        }
+
+        for (int i = 0; i < albumArrId.size(); i++) {
+            for (Photo photo : photoRepository.findAll()) {
+                if (photo.getAlbum().getId() == albumArrId.get(i)) {
+                    nestedArr.get(i).add("/user-photos/" + photo.getAlbum().getUser().getId() + "/" + photo.getAlbum().getId() + "/" + photo.getPhotoFileName());
+                }
+            }
+        }
+
+        // NEED A WAY TO ASSOCIATE ELEMENTS IN albumArrName WITH nestedArr ELEMENTS
+        for (int i = 0; i < nestedArr.size(); i++) {
+            nestedHashMap.put(albumArrName.get(i), nestedArr.get(i));
+        }
+
+        // adding nestedArr to the model to be able to use it in ThymeLeaf
+        model.addAttribute("nestedArr", nestedArr);
+        model.addAttribute("nestedHashMap", nestedHashMap);
+        model.addAttribute("albumArrName", albumArrName);
+        // nestedArr sample content: urlStringArr1, urlStringArr2, urlStringArr3, ...
+
+        return "displayPhotos";
+
+
+
+//        ArrayList<String> stringUrlArr = new ArrayList<>();
+//        for (Photo photo : photoRepository.findAll()) {
+//            if (photo.getAlbum().getId() == albumId) {
+//                stringUrlArr.add("/user-photos/" + photo.getAlbum().getUser().getId() + "/" + photo.getAlbum().getId() + "/" + photo.getPhotoFileName());
+//            }
+//        }
+         // this contains all of the url for the images that satisfy the given albumId
     }
 
 }

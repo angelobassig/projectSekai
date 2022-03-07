@@ -8,19 +8,52 @@
 
     <table>
         <thead>
-            <tr th:each="stringUrl: ${stringUrlArr}">
+            <tr>
                 <td>
-                    <img alt="testing" th:src="@{${stringUrl}}" />
+                    <!-- Looping through every album in an albumArr -->
+                    <div th:each="instance : ${nestedHashMap}">
+
+                        <div>
+                            <span th:text="${instance.key}"></span>
+                        </div>
+
+                        <!-- Looping through every image in an album -->
+                        <div th:each="stringUrl : ${instance.value}">
+
+                            <span>
+                                <img alt="testing" th:src="@{${stringUrl}}" />
+                            </span>
+                        </div>
+                    </div>
                 </td>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-
-                </td>
-            </tr>
+        <tr>
+            <td></td>
+        </tr>
         </tbody>
     </table>
+
+    <tr th:each="a : ${A}">
+        <td>
+            <img alt="testing" th:src="@{${a}}" />
+        </td>
+    </tr>
     </body>
+
+<!-- th:each="stringAlbumName : ${nestedHashMap.keySet()}" -->
+    <!--                    <span th:text="${stringAlbumName}"></span>-->
+
+    <!--                    <tr th:each="instance : ${analysis.instanceMap}">
+        <td th:text="${instance.key}">keyvalue</td>
+        <td th:text="${instance.value.numOfData}">num</td>
+    </tr>
+    -->
+
+    <!--   th:each="element : ${nestedHashMap}
+                         element.keySet()
+                         -->
+
+
 </html>
