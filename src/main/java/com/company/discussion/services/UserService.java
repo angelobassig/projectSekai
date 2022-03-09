@@ -3,6 +3,8 @@ package com.company.discussion.services;
 import com.company.discussion.models.User;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 public interface UserService {
 
     // create user
@@ -19,4 +21,7 @@ public interface UserService {
 
     // search user
     ResponseEntity searchUser(String searchTerm);
+
+    // Optional - defined if the method may/may not return an object of the User class
+    Optional<User> findByUsername(String username);
 }

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -104,5 +105,12 @@ public class UserServiceImpl implements UserService {
             }
             return new ResponseEntity(searchedUsersAlphabetical, HttpStatus.OK);
         }
+    }
+
+    // Find by username
+    public Optional<User> findByUsername(String username) {
+        // If the findByUsername method returns null, it will throw a NullPointerException
+        // Using the ofNullable method will avoid our application from crashing
+        return Optional.ofNullable(userRepository.findByUsername(username));
     }
 }
