@@ -3,33 +3,39 @@ package com.company.discussion.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name="liked_posts")
-public class LikedPost {
+@Table(name="liked_photos")
+public class LikedPhoto {
 
     // Properties
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "liked_posts_seq")
-    @SequenceGenerator(name = "liked_posts_seq", sequenceName = "sequence_liked_posts", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "liked_photos_seq")
+    @SequenceGenerator(name = "liked_photos_seq", sequenceName = "sequence_liked_photos", allocationSize = 1)
     private Long id;
 
     @Column
     private String datetimeCreated;
 
-    // This refers to the user who 'likes' the post
+    // This refers to the user who 'likes' the photo
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    @JoinColumn(name = "photo_id", nullable = false)
+    private Photo photo;
 
     // Constructors
-    public LikedPost() {
+    public LikedPhoto() {
     }
 
-    public LikedPost(String datetimeCreated) {
+    public LikedPhoto(String datetimeCreated) {
         this.datetimeCreated = datetimeCreated;
+    }
+
+    public LikedPhoto(String datetimeCreated, User user, Photo photo) {
+        this.datetimeCreated = datetimeCreated;
+        this.user = user;
+        this.photo = photo;
     }
 
     // Getters and Setters
@@ -57,12 +63,13 @@ public class LikedPost {
         this.user = user;
     }
 
-    public Post getPost() {
-        return post;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
+
 
 }

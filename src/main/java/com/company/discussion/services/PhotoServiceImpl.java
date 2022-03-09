@@ -4,16 +4,13 @@ import com.company.discussion.models.Album;
 import com.company.discussion.models.Photo;
 import com.company.discussion.repositories.AlbumRepository;
 import com.company.discussion.repositories.PhotoRepository;
-import com.company.discussion.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
@@ -27,6 +24,22 @@ public class PhotoServiceImpl implements PhotoService{
 
     // create photo
     public ResponseEntity createPhoto(Photo photo) {
+
+        Photo newPhoto = new Photo();
+
+        newPhoto.setTitle(photo.getTitle());
+        newPhoto.setContent(photo.getContent());
+
+        // this code is subject to change
+        newPhoto.setPhotoFileName(photo.getPhotoFileName());
+
+        // getting 'Date' object and converting it to string
+        LocalDateTime dateObject = LocalDateTime.now();
+        DateTimeFormatter formatDateObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+        String formattedDate = dateObject.format(formatDateObj);
+
+        newPhoto.setDatetimeCreated(formattedDate);
+
         photoRepository.save(photo);
         return new ResponseEntity("Photo successfully created!", HttpStatus.CREATED);
     }
@@ -46,7 +59,6 @@ public class PhotoServiceImpl implements PhotoService{
 
         newPhoto.setTitle(photo.getTitle());
         newPhoto.setContent(photo.getContent());
-        newPhoto.setComment(photo.getComment());
         newPhoto.setAlbum(album);
         photoRepository.save(newPhoto);
 

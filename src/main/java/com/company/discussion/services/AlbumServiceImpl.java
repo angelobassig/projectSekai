@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
@@ -22,7 +24,19 @@ public class AlbumServiceImpl implements AlbumService{
 
     // create album
     public ResponseEntity createAlbum(Album album) {
+        Album newAlbum = new Album();
+
+        newAlbum.setAlbumName(album.getAlbumName());
+
+        // getting 'Date' object and converting it to string
+        LocalDateTime dateObject = LocalDateTime.now();
+        DateTimeFormatter formatDateObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+        String formattedDate = dateObject.format(formatDateObj);
+
+        newAlbum.setDatetimeCreated(formattedDate);
+
         albumRepository.save(album);
+
         return new ResponseEntity("Album created successfully!", HttpStatus.CREATED);
     }
 

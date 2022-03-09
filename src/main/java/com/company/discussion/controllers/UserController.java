@@ -36,4 +36,10 @@ public class UserController {
     public ResponseEntity<Object> updateUser(@RequestBody User user, @PathVariable Long userid) {
         return userService.updateUser(user, userid);
     }
+
+    // search user
+    @RequestMapping(value="/api/users/search", method = RequestMethod.GET)
+    public ResponseEntity<Object> searchUser(@RequestParam(value="name", defaultValue="") String searchTerm) {
+        return userService.searchUser(searchTerm);
+    }
 }

@@ -6,14 +6,13 @@ import com.company.discussion.models.User;
 import com.company.discussion.repositories.FriendRepository;
 import com.company.discussion.repositories.FriendRequestRepository;
 import com.company.discussion.repositories.UserRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class FriendServiceImpl implements FriendService {
@@ -55,8 +54,13 @@ public class FriendServiceImpl implements FriendService {
                 User requester = userRepository.findById(requesterId).get();
                 User recipient = userRepository.findById(recipientId).get();
 
+                // getting 'Date' object and converting it to string
+                LocalDateTime dateObject = LocalDateTime.now();
+                DateTimeFormatter formatDateObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+                String formattedDate = dateObject.format(formatDateObj);
+
                 // creating the Friend object based on the requester and recipient (User) objects
-                Friend friend = new Friend(requester, recipient);
+                Friend friend = new Friend(formattedDate, requester, recipient);
 
                 friendRepository.save(friend);
 

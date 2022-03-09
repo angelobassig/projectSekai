@@ -39,31 +39,36 @@ public class User {
     @Column
     private boolean isOnline = false;
 
+    @Column
+    private String datetimeCreated;
+
+    @Column
+    private String profilePic;
+
+    @Column
+    private String aboutMe;
+
+    @Column
+    private String profileUrl;
+
+    // NOTE: this particular block of code is important
+    // OneToMany relationship between User Model and Post Model
+    @OneToMany(mappedBy = "receiverUser")
+    @JsonIgnore
+    private Set<Post> posts;
+
     // OneToMany relationship between User Model and Album Model
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Album> albums;
 
-//    @OneToMany(mappedBy = "user")
-//    @JsonIgnore
-//    private Set<Post> posts;
-
-    // private Set<User> friends
-    // private Set<User> friendRequests
+    // OneToMany relationship between User Model and Comment Model
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<Comment> comments;
 
     // Constructors
     public User() {
-    }
-
-    public User(String firstName, String lastName, String email, String password, String birthday, String gender, String mobileNumber, boolean isOnline) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.mobileNumber = mobileNumber;
-        this.isOnline = isOnline;
     }
 
     // Getters and Setters
@@ -139,11 +144,60 @@ public class User {
         isOnline = online;
     }
 
-//    public Set<Post> getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(Set<Post> posts) {
-//        this.posts = posts;
-//    }
+    public String getDatetimeCreated() {
+        return datetimeCreated;
+    }
+
+    public void setDatetimeCreated(String datetimeCreated) {
+        this.datetimeCreated = datetimeCreated;
+    }
+
+    public Set<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(Set<Album> albums) {
+        this.albums = albums;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
 }

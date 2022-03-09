@@ -3,32 +3,37 @@ package com.company.discussion.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name="liked_posts")
-public class LikedPost {
+@Table(name="comments")
+public class Comment {
 
     // Properties
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "liked_posts_seq")
-    @SequenceGenerator(name = "liked_posts_seq", sequenceName = "sequence_liked_posts", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comments_seq")
+    @SequenceGenerator(name = "comments_seq", sequenceName = "sequence_comments", allocationSize = 1)
     private Long id;
+
+    @Column
+    private String content;
 
     @Column
     private String datetimeCreated;
 
-    // This refers to the user who 'likes' the post
+    // ManyToOne relationship between Comment Model and User Model
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name="user_id", nullable = false)
     private User user;
 
+    // ManyToOne relationship between Comment Model and Post Model
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name="post_id", nullable = false)
     private Post post;
 
     // Constructors
-    public LikedPost() {
+    public Comment() {
     }
 
-    public LikedPost(String datetimeCreated) {
+    public Comment(String content, String datetimeCreated) {
+        this.content = content;
         this.datetimeCreated = datetimeCreated;
     }
 
@@ -39,6 +44,14 @@ public class LikedPost {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDatetimeCreated() {
@@ -64,5 +77,6 @@ public class LikedPost {
     public void setPost(Post post) {
         this.post = post;
     }
+
 
 }

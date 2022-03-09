@@ -3,13 +3,13 @@ package com.company.discussion.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name="friends")
-public class Friend {
+@Table(name="blocks")
+public class Block {
 
     // Properties
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "friends_seq")
-    @SequenceGenerator(name = "friends_seq", sequenceName = "sequence_friends", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "blocks_seq")
+    @SequenceGenerator(name = "blocks_seq", sequenceName = "sequence_blocks", allocationSize = 1)
     private Long id;
 
     @Column
@@ -24,20 +24,11 @@ public class Friend {
     private User recipient;
 
     // Constructors
-    public Friend() {
+    public Block() {
     }
 
-    // This is an important constructor for the FriendService
-    public Friend(User requester, User recipient) {
-        this.requester = requester;
-        this.recipient = recipient;
-    }
-
-    // This is an important constructor for the FriendService
-    public Friend(String datetimeCreated, User requester, User recipient) {
+    public Block(String datetimeCreated) {
         this.datetimeCreated = datetimeCreated;
-        this.requester = requester;
-        this.recipient = recipient;
     }
 
     // Getters and Setters
@@ -72,6 +63,5 @@ public class Friend {
     public void setRecipient(User recipient) {
         this.recipient = recipient;
     }
-
 
 }

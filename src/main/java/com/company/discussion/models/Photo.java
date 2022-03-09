@@ -19,13 +19,10 @@ public class Photo {
     private String content;
 
     @Column
-    private boolean isActive = true;
-
-    @Column
-    private String comment;
-
-    @Column
     private String photoFileName;
+
+    @Column
+    private String datetimeCreated;
 
     @ManyToOne
     @JoinColumn(name="album_id", nullable = false)
@@ -35,11 +32,11 @@ public class Photo {
     public Photo() {
     }
 
-    public Photo(String title, String content, boolean isActive, String comment) {
+    public Photo(String title, String content, String photoFileName, String datetimeCreated) {
         this.title = title;
         this.content = content;
-        this.isActive = isActive;
-        this.comment = comment;
+        this.photoFileName = photoFileName;
+        this.datetimeCreated = datetimeCreated;
     }
 
     // Getters and Setters
@@ -67,20 +64,12 @@ public class Photo {
         this.content = content;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public String getDatetimeCreated() {
+        return datetimeCreated;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDatetimeCreated(String datetimeCreated) {
+        this.datetimeCreated = datetimeCreated;
     }
 
     public Album getAlbum() {
@@ -98,4 +87,5 @@ public class Photo {
     public void setPhotoFileName(String photoFileName) {
         this.photoFileName = photoFileName;
     }
+
 }

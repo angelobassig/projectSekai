@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
@@ -38,7 +40,7 @@ public class PostServiceImpl implements PostService {
                 friendsAllowedToPost.add(friend);
             }
         }
-
+//
         // looping through the friendsAllowedToPost array where a condition inside the loop checks if the user is allowed to post to the user with id: postedId
         for (Friend friend : friendsAllowedToPost) {
            if (posterId == friend.getRequester().getId() || posterId == friend.getRecipient().getId()) {
@@ -52,9 +54,16 @@ public class PostServiceImpl implements PostService {
 
                postToCreate.setTitle(post.getTitle());
                postToCreate.setContent(post.getContent());
-               postToCreate.setComment(post.getComment());
                postToCreate.setSenderUser(userWhoPosted);
                postToCreate.setReceiverUser(userWhoGotPosted);
+
+               // getting 'Date' object and converting it to string
+               LocalDateTime dateObject = LocalDateTime.now();
+               DateTimeFormatter formatDateObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+               String formattedDate = dateObject.format(formatDateObj);
+
+               postToCreate.setDatetimeCreated(formattedDate);
+
                postRepository.save(postToCreate);
                return new ResponseEntity("Post created successfully!", HttpStatus.CREATED);
            }

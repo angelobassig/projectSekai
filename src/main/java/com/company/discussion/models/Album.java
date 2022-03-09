@@ -15,7 +15,11 @@ public class Album {
     @SequenceGenerator(name = "albums_seq", sequenceName = "sequence_albums", allocationSize = 1)
     private Long id;
 
+    @Column
     private String albumName;
+
+    @Column
+    private String datetimeCreated;
 
     @OneToMany(mappedBy = "album")
     @JsonIgnore
@@ -30,8 +34,9 @@ public class Album {
     public Album() {
     }
 
-    public Album(String albumName) {
+    public Album(String albumName, String datetimeCreated) {
         this.albumName = albumName;
+        this.datetimeCreated = datetimeCreated;
     }
 
     // Getters and Setters
@@ -66,4 +71,14 @@ public class Album {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getDatetimeCreated() {
+        return datetimeCreated;
+    }
+
+    public void setDatetimeCreated(String datetimeCreated) {
+        this.datetimeCreated = datetimeCreated;
+    }
+
+
 }

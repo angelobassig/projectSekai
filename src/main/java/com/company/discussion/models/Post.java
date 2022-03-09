@@ -1,7 +1,11 @@
 package com.company.discussion.models;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
+import java.util.Set;
+
+//
 @Entity
 @Table(name="posts")
 public class Post {
@@ -19,33 +23,38 @@ public class Post {
     private String content;
 
     @Column
-    private boolean isActive = true;
-
-    @Column
-    private String comment;
+    private String datetimeCreated;
 
     @OneToOne
     @JoinColumn(name = "sender_user_id", referencedColumnName = "id")
     private User senderUser;
 
-    @OneToOne
+    // NOTE: this particular block of code is important
+    @ManyToOne
     @JoinColumn(name = "receiver_user_id", referencedColumnName = "id")
     private User receiverUser;
 
-    /*
-    @Column
-    private Set<User> likes;
-    */
+    @OneToMany(mappedBy = "post")
+    @JsonIgnore
+    private Set<Comment> comments;
 
     // Constructors
     public Post() {
     }
 
-    public Post(String title, String content, boolean isActive, String comment) {
+    public Post(String title, String content, User senderUser, User receiverUser) {
         this.title = title;
         this.content = content;
-        this.isActive = isActive;
-        this.comment = comment;
+        this.senderUser = senderUser;
+        this.receiverUser = receiverUser;
+    }
+
+    public Post(String title, String content, String datetimeCreated, User senderUser, User receiverUser) {
+        this.title = title;
+        this.content = content;
+        this.datetimeCreated = datetimeCreated;
+        this.senderUser = senderUser;
+        this.receiverUser = receiverUser;
     }
 
     // Getters and Setters
@@ -73,20 +82,12 @@ public class Post {
         this.content = content;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public String getDatetimeCreated() {
+        return datetimeCreated;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDatetimeCreated(String datetimeCreated) {
+        this.datetimeCreated = datetimeCreated;
     }
 
     public User getSenderUser() {
@@ -103,5 +104,13 @@ public class Post {
 
     public void setReceiverUser(User receiverUser) {
         this.receiverUser = receiverUser;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

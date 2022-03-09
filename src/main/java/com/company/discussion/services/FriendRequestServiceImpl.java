@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
@@ -24,7 +26,7 @@ public class FriendRequestServiceImpl implements FriendRequestService {
 
     @Autowired
     private FriendRepository friendRepository;
-
+//
     // send friend request
     public ResponseEntity sendFriendRequest(Long senderId, Long receiverId) {
 
@@ -43,8 +45,13 @@ public class FriendRequestServiceImpl implements FriendRequestService {
         User sender = userRepository.findById(senderId).get();
         User receiver = userRepository.findById(receiverId).get();
 
+        // getting 'Date' object and converting it to string
+        LocalDateTime dateObject = LocalDateTime.now();
+        DateTimeFormatter formatDateObj = DateTimeFormatter.ofPattern("MM-dd-yyyy HH:mm:ss");
+        String formattedDate = dateObject.format(formatDateObj);
+
         // creating a record in the friend_requests table where the record contains the senderId and the receiverId
-        FriendRequest friendRequest = new FriendRequest(sender, receiver);
+        FriendRequest friendRequest = new FriendRequest(formattedDate, sender, receiver);
 
         // save the friendRequest
         friendRequestRepository.save(friendRequest);

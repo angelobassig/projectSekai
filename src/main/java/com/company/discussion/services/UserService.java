@@ -16,4 +16,7 @@ public interface UserService {
 
     // update user
     ResponseEntity updateUser(User user, Long id);
+
+    // search user
+    ResponseEntity searchUser(String searchTerm);
 }

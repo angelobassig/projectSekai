@@ -8,7 +8,6 @@ import com.company.discussion.repositories.PhotoRepository;
 import com.company.discussion.services.PhotoService;
 import com.company.discussion.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,39 +67,6 @@ public class PhotoController {
         return "home";
     }
 
-//    @PostMapping("/photos/save/{albumId}")
-//    public String addPhotoTL(Photo photo, @PathVariable Long albumId, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException {
-//
-//        // associate an album with the corresponding id: albumId
-//        Album album = albumRepository.findById(albumId).get();
-//
-//        // create a new photo to be associated with the created album by using the setAlbum() method
-//        Photo newPhoto = new Photo();
-//
-//        newPhoto.setTitle(photo.getTitle());
-//        newPhoto.setContent(photo.getContent());
-//        newPhoto.setComment(photo.getComment());
-//        newPhoto.setAlbum(album);
-//
-//        // for cleaning the file name
-//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-//        newPhoto.setPhotoFileName(fileName); //add photoFileName property in the Photo model
-//
-//        photoRepository.save(newPhoto); // -> at this point, may record na lalabas sa database!
-//
-//        // codes below are for uploading the files in the file system (which will be exposed later on)
-//        String uploadDir = "./user-photos/" + newPhoto.getAlbum().getUser().getId() + "/" + newPhoto.getAlbum().getId();
-//
-//        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-//        // we're going to create a FileUploadUtil class
-//
-//        return "home";
-//    }
-
-    // page for displaying all of the photos given a particular album id
-
-    // page for displaying all of the albums (with photos) given a particular user id
-
     @PostMapping("/tl/photos")
     public String createPhotoTl(Photo photo, @RequestParam("albumId") Long albumId, @RequestParam("image") MultipartFile multipartFile, Model model) throws IOException {
         // associate an album with the corresponding id: albumId
@@ -111,7 +77,6 @@ public class PhotoController {
 
         newPhoto.setTitle(photo.getTitle());
         newPhoto.setContent(photo.getContent());
-        newPhoto.setComment(photo.getComment());
         newPhoto.setAlbum(album);
 
         // first save is here, just to get the photo Id for the codes below
@@ -165,6 +130,8 @@ public class PhotoController {
         // create an Array List first
         ArrayList<ArrayList<String>> nestedArr = new ArrayList<>();
         HashMap<String, ArrayList<String>> nestedHashMap = new HashMap<>(); // additional code
+        // possible additional code:
+        // HashMap<String, HashMap<Photo, ArrayList<String>>> nestedHashMap = new HashMap<>();
 
         // generating empty elements for nestedArr based on the number of albums belonging to user with id = userId
         for (int i = 0; i < albumArrId.size(); i++) {
@@ -197,15 +164,6 @@ public class PhotoController {
 
         return "displayPhotos";
 
-
-
-//        ArrayList<String> stringUrlArr = new ArrayList<>();
-//        for (Photo photo : photoRepository.findAll()) {
-//            if (photo.getAlbum().getId() == albumId) {
-//                stringUrlArr.add("/user-photos/" + photo.getAlbum().getUser().getId() + "/" + photo.getAlbum().getId() + "/" + photo.getPhotoFileName());
-//            }
-//        }
-         // this contains all of the url for the images that satisfy the given albumId
     }
 
 }

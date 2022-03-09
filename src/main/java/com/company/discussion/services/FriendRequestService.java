@@ -1,6 +1,5 @@
 package com.company.discussion.services;
 
-import com.company.discussion.models.User;
 import org.springframework.http.ResponseEntity;
 
 public interface FriendRequestService {

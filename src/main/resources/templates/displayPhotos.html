@@ -19,9 +19,12 @@
 
                         <!-- Looping through every image in an album -->
                         <div th:each="stringUrl : ${instance.value}">
+                        <!-- <div th:each="photoObj : ${instance.value.key}  -->
+                        <!-- <div th:each="stringUrl : ${instance.value.value}  -->
 
                             <span>
                                 <img alt="testing" th:src="@{${stringUrl}}" />
+                        <!-- HashMap<String, HashMap<Photo, ArrayList<String>>> nestedHashMap = new HashMap<>();    -->
                             </span>
                         </div>
                     </div>
