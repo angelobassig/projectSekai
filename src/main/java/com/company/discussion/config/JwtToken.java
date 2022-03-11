@@ -53,7 +53,7 @@ public class JwtToken implements Serializable {
 
         // Map is an object without duplicate keys
         Map<String, Object> claims = new HashMap<>();
-        User user = userRepository.findByUsername(userDetails.getUsername());
+        User user = userRepository.findByEmail(userDetails.getUsername());
         claims.put("user", user.getId());
         return doGenerateToken(claims, userDetails.getUsername());
 

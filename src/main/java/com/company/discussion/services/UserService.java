@@ -23,5 +23,5 @@ public interface UserService {
     ResponseEntity searchUser(String searchTerm);
 
     // Optional - defined if the method may/may not return an object of the User class
-    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
 }

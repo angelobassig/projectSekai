@@ -61,9 +61,20 @@ public class WebSecurityConfig<JwtUserDetailsService> extends WebSecurityConfigu
 
         httpSecurity.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/api/users/authenticate").permitAll()
                 .antMatchers("/users/register").permitAll()
-                .antMatchers(HttpMethod.GET, "/posts").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users/{userid}").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/friendRequests").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/friendRequests/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/friendRequests/{senderId}/{receiverId}").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/friendRequests/{senderId}/{receiverId}").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/friends").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/friends/{requesterId}/{recipientId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/friends/{pageId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/friends/{requesterId}/{recipientId}").permitAll()
+                .antMatchers(HttpMethod.GET, "/posts/{posterid}/{postedid}").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticate).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

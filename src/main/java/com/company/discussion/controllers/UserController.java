@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Column;
 import java.util.Map;
 
 @RestController
@@ -19,25 +20,25 @@ public class UserController {
     private UserService userService;
 
     // create user
-    @RequestMapping(value="/users", method = RequestMethod.POST)
+    @RequestMapping(value="/api/users", method = RequestMethod.POST)
     public ResponseEntity<Object> createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
     // get users
-    @RequestMapping(value="/users", method = RequestMethod.GET)
+    @RequestMapping(value="/api/users", method = RequestMethod.GET)
     public ResponseEntity<Object> getUsers() {
         return userService.getUsers();
     }
 
     // get user
-    @RequestMapping(value="/users/{userid}", method = RequestMethod.GET)
+    @RequestMapping(value="/api/users/{userid}", method = RequestMethod.GET)
     public ResponseEntity<Object> getUser(@PathVariable Long userid) {
         return userService.getUser(userid);
     }
 
     // update user
-    @RequestMapping(value="/users/{userid}", method = RequestMethod.PUT)
+    @RequestMapping(value="/api/users/{userid}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateUser(@RequestBody User user, @PathVariable Long userid) {
         return userService.updateUser(user, userid);
     }
@@ -57,22 +58,31 @@ public class UserController {
     @RequestMapping(value="/users/register", method=RequestMethod.POST)
     public ResponseEntity<Object> register(@RequestBody Map<String, String> body) throws UserException {
 
-        String username = body.get("username");
+        String email = body.get("email");
+        String firstName = body.get("firstName");
+        String lastName = body.get("lastName");
+        String birthday = body.get("birthday");
+        String gender = body.get("gender");
+        String mobileNumber = body.get("mobileNumber");
 
-        if(!userService.findByUsername(username).isEmpty()){
-            throw new UserException("Username already exists.");
+        if(!userService.findByEmail(email).isEmpty()){
+            throw new UserException("Email already exists.");
         } else {
 
             String password = body.get("password");
             String encodedPassword = new BCryptPasswordEncoder().encode(password);
 
-            User newUser = new User(username, encodedPassword);
+//            User newUser = new User(email, encodedPassword);
+
+            User newUser = new User(firstName, lastName, email, encodedPassword, birthday, gender, mobileNumber);
 
             userService.createUser(newUser);
 
             return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
 
         }
+
+
 
     }
 }

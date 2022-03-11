@@ -38,7 +38,11 @@ public class UserServiceImpl implements UserService {
         String formattedDate = dateObject.format(formatDateObj);
 
         newUser.setDatetimeCreated(formattedDate);
-//
+
+        userRepository.save(newUser); // saving here to get the Id
+
+        newUser.setProfileUrl(user.getFirstName() + user.getLastName() + newUser.getId());
+
         userRepository.save(newUser);
         return new ResponseEntity("User created successfully!", HttpStatus.CREATED);
     }
@@ -107,10 +111,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // Find by username
-    public Optional<User> findByUsername(String username) {
-        // If the findByUsername method returns null, it will throw a NullPointerException
+    // Find by email
+    public Optional<User> findByEmail(String email) {
+        // If the findByEmail method returns null, it will throw a NullPointerException
         // Using the ofNullable method will avoid our application from crashing
-        return Optional.ofNullable(userRepository.findByUsername(username));
+        return Optional.ofNullable(userRepository.findByEmail(email));
     }
 }

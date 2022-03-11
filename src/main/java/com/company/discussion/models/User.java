@@ -71,6 +71,21 @@ public class User {
     public User() {
     }
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String firstName, String lastName, String email, String password, String birthday, String gender, String mobileNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.mobileNumber = mobileNumber;
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;

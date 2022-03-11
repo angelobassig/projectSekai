@@ -17,18 +17,19 @@ public class JwtUserDetailService implements UserDetailsService {
     private UserRepository userRepository;
 
     // Register the user credentials in the application
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         // Check if username exists and get the user if it does
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(email);
         // If no user found throw exception
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
         // Store user credentials in User object for spring security
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
 
     }
 
